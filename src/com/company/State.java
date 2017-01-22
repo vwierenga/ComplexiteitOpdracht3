@@ -10,47 +10,50 @@ public class State {
     private Node pawnOneLocation;
     private Node pawnTwoLocation;
 
+    /**
+     * State constructor
+     * @param pawnOneLocation The location of the first pawn
+     * @param pawnTwoLocation The location of the second pawn
+     */
     public State(Node pawnOneLocation, Node pawnTwoLocation) {
         this.pawnOneLocation = pawnOneLocation;
         this.pawnTwoLocation = pawnTwoLocation;
     }
 
-    public void setPawnOneLocation(Node pawnOneLocation) {
-        this.pawnOneLocation = pawnOneLocation;
-    }
-
-    public void setPawnTwoLocation(Node pawnTwoLocation) {
-        this.pawnTwoLocation = pawnTwoLocation;
-    }
-
+    /**
+     * Get the location of pawn one
+     * @return The node pawn one is on
+     */
     public Node getPawnOneLocation() {
         return pawnOneLocation;
     }
 
+    /**
+     * Get the location of pawn two
+     * @return The node pawn two is on
+     */
     public Node getPawnTwoLocation() {
         return pawnTwoLocation;
     }
 
+    /**
+     * Get all neighbours of this state
+     * @return All possible states that can be accessed from this state
+     */
     public ArrayList<State> getNeighbours(){
-        System.out.println("Neighbours for: " + pawnOneLocation.getNumber() + " " + pawnTwoLocation.getNumber());
         ArrayList<State> neighbours = new ArrayList<>();
         ArrayList<Route> routes = pawnOneLocation.getRoutes(pawnTwoLocation.getColour());
         if(routes != null){
-            System.out.println("Pawn One:");
             for (Route route : routes){
-                System.out.println("PawnOne: " + route.getDestination().getNumber() + " PawnTwo: " + pawnTwoLocation.getNumber());
                 neighbours.add(new State(route.getDestination(), pawnTwoLocation));
             }
         }
         routes = pawnTwoLocation.getRoutes(pawnOneLocation.getColour());
         if(routes != null){
-            System.out.println("Pawn Two:");
             for (Route route : routes){
-                System.out.println("PawnOne: " + pawnOneLocation.getNumber() + " PawnTwo: " + route.getDestination().getNumber());
                 neighbours.add(new State(pawnOneLocation, route.getDestination()));
             }
         }
-        System.out.println(" ");
         return neighbours;
     }
 }
